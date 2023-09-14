@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Search from "./components/Search";
+import WeatherItem from "./components/WeatherItem";
 
 import SayHi, { SayHello } from "./components/WeatherItem";
 import fakeWeatherData from "./fakeWeatherData.json";
@@ -21,12 +22,13 @@ class App extends Component {
   render() {
     return (
       <div className="app">
-        <SayHi />
-        <SayHello color="black" name={this.state.name} />
-        <Search handleInput={this.handleInputChange} />
+         <Search/> 
+         <WeatherItem/> 
+
       </div>
     );
   }
 }
 
 export default App;
+
