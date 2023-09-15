@@ -1,31 +1,31 @@
-import React from "react";
-
+import React, { useState } from "react";
 import clear from "../img/weather-icons/clear.svg";
 import "./Search.css";
-class Search extends React.Component {
-  state = {
-    input: ""
+function Search({ onSeachChange }) {
+  const [city, setCity] = useState("");
+
+  const handleInputChange = (e) => {
+    setCity(e.target.value);
   };
 
-  render() {
-    return (
-      <div className="container">
-        {this.state.input}
-        <input
-          type="text"
-          id="input-name"
-          placeholder="Enter the Location"
-        />
-        <button
-          onClick={event => {
-            this.props.handleInput(this.state.input);
-          }}
+  const handleSearch = (e) => {
+    // Pass the entered city to the parent component
+    e.preventDefault();
+    onSeachChange(city);
+  };
 
-        >
-          Find weather
-        </button>
-      </div>
-    );
-  }
+  return (
+    <form className="container" onSubmit={(e) => handleSearch(e)}>
+      <input
+        type="text"
+        id="input-name"
+        placeholder="Type a city name"
+        onChange={handleInputChange}
+        value={city}
+      />
+      <button>Find weather</button>
+    </form>
+  );
 }
+
 export default Search;

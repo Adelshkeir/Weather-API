@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
+import React from "react";
 import "./Weatheritem.css";
 import storm from "../img/weather-icons/storm.svg";
 import clear from "../img/weather-icons/clear.svg";
@@ -12,7 +11,7 @@ import rain from "../img/weather-icons/rain.svg";
 import snow from "../img/weather-icons/snow.svg";
 import unknown from "../img/weather-icons/unknown.svg";
 
-const WeatherItem = ({ WeatherData }) => {
+const WeatherItem = ({ weatherData }) => {
   const getWeatherLogo = (id) => {
     switch (true) {
       case id < 300:
@@ -25,69 +24,66 @@ const WeatherItem = ({ WeatherData }) => {
         return snow;
       case id >= 700 && id <= 799:
         return fog;
-      case (id = 800):
+      case id === 800:
         return clear;
-      case (id = 801):
+      case id === 801:
         return partlycloudy;
       case id >= 801 && id <= 805:
         return mostlycloudy;
-
       default:
-        return null;
+        return unknown;
     }
   };
 
   const formatWeatherTime = (time) => {
-    const date = new Date(time);
+    let formatedTime = time.split(" ")[1].split(":");
 
-    // Get the hours and minutes from the Date object
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    return `${hours.toString().padStart(2, "0")}:${minutes
-      .toString()
-      .padStart(2, "0")}`;
+    return `${formatedTime[0]}:${formatedTime[1]}`;
   };
 
-  console.log(WeatherData);
+  if (!weatherData) {
+    return <h2>Incorrect City Name !!!</h2>;
+  }
+
+  const currentWeather = weatherData[0];
+
   return (
     <div id="container_comp">
       <div className="weather_information">
         <div id="image_info">
           <img
-            src={partlycloudy}
-            alt="weather status "
+            src={getWeatherLogo(currentWeather.weather[0]?.id)}
+            alt="weather status"
             id="weather_status"
-          ></img>
-          <p id="text_status">overcast clouds</p>
+          />
+          <p id="text_status">{currentWeather.weather[0]?.description}</p>
         </div>
 
         <p id="temp_txt">
           <strong>Temperature </strong>
-          <span id="temp_from"> 10°C</span> to <span id="temp_to"> 11°C </span>
+          <span id="temp_from">{currentWeather.main?.temp_min}°C</span> to{" "}
+          <span id="temp_to">{currentWeather.main?.temp_max}°C</span>
         </p>
         <p id="humidity_txt">
           <strong> Humidity</strong>
-          <span id="humidity">78%</span>
+          <span id="humidity">{currentWeather.main?.humidity}%</span>
           <span id="pressure_txt">
             <strong>Pressure</strong>
           </span>
-          <span id="pressure"> 100848</span>
+          <span id="pressure">{currentWeather.main?.pressure}</span>
         </p>
       </div>
       <div className="temp_hours">
-        {WeatherData.slice(0,7).map((x) => {
-          return (
-            <div className="time time3" key={x.dt}>
-              <p>{formatWeatherTime(x.dt)}</p>
-              <img
-                src={getWeatherLogo(x.weather[0].id)}
-                alt="Weather status "
-              />
-              <p>{x.main.temp}</p>
-            </div>
-          );
-        })}
+        {weatherData.slice(0, 7).map((weather) => (
+          <div className="time time3" key={weather.dt}>
+            <p>{formatWeatherTime(weather.dt_txt)}</p>
+            <img
+              src={getWeatherLogo(weather.weather[0]?.id)}
+              alt="Weather status"
+            />
+            <p>{weather.main?.temp}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
