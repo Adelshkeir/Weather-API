@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import clear from "../img/weather-icons/clear.svg";
 import "./Search.css";
+import react from "react";
+function Search({onSeachChange}) {
+  const [city, setCity] = useState('');
 
-function Search(props) {
-  const [input, setInput] = useState("");
-
-  const handleInputChange = (event) => {
-    setInput(event.target.value);
+  const handleInputChange = (e) => {
+    setCity(e.target.value);
   };
 
-  const handleFindWeather = () => {
-    props.handleInput(input);
+  const handleSearchClick = () => {
+    // Pass the entered city to the parent component
+    onSeachChange(city);
   };
+
 
   return (
+
+
+   
     <div className="container">
-      {input}
+  
       <input
         type="text"
         id="input-name"
         placeholder="Type a city name"
         onChange={handleInputChange}
+         value={city}
+        
       />
-      <button onClick={handleFindWeather}>Find weather</button>
+      <button onClick={handleSearchClick}>Find weather</button>
     </div>
   );
 }
