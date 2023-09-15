@@ -15,23 +15,23 @@ const WeatherItem = ({ weatherData }) => {
   const getWeatherLogo = (id) => {
     switch (true) {
       case id < 300:
-        return storm;
+        return { img: storm, bg: "#c2c9cd" };
       case id >= 300 && id <= 499:
-        return drizzle;
+        return { img: drizzle, bg: "#b2cbde" };
       case id >= 500 && id <= 599:
-        return rain;
+        return { img: rain, bg: "#b7cad8" };
       case id >= 600 && id <= 699:
-        return snow;
+        return { img: snow, bg: "#bdc9d3" };
       case id >= 700 && id <= 799:
-        return fog;
+        return { img: fog, bg: "#accce3" };
       case id === 800:
-        return clear;
+        return { img: clear, bg: "#9ccef4" };
       case id === 801:
-        return partlycloudy;
+        return { img: partlycloudy, bg: "#a1cdee" };
       case id >= 801 && id <= 805:
-        return mostlycloudy;
+        return { img: mostlycloudy, bg: "#a7cce9" };
       default:
-        return unknown;
+        return { img: unknown, bg: "#9ccef4" };
     }
   };
 
@@ -48,11 +48,16 @@ const WeatherItem = ({ weatherData }) => {
   const currentWeather = weatherData[0];
 
   return (
-    <div id="container_comp">
+    <div
+      id="container_comp"
+      style={{
+        backgroundColor: getWeatherLogo(currentWeather.weather[0]?.id).bg,
+      }}
+    >
       <div className="weather_information">
         <div id="image_info">
           <img
-            src={getWeatherLogo(currentWeather.weather[0]?.id)}
+            src={getWeatherLogo(currentWeather.weather[0]?.id).img}
             alt="weather status"
             id="weather_status"
           />
@@ -78,7 +83,7 @@ const WeatherItem = ({ weatherData }) => {
           <div className="time time3" key={weather.dt}>
             <p>{formatWeatherTime(weather.dt_txt)}</p>
             <img
-              src={getWeatherLogo(weather.weather[0]?.id)}
+              src={getWeatherLogo(weather.weather[0]?.id).img}
               alt="Weather status"
             />
             <p>{weather.main?.temp}</p>

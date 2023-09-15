@@ -68,9 +68,9 @@ h2 {
     grid-template-columns: 1fr 1fr;
   }
 
-  p {
+  /* p {
     font-size: xx-large;
-  }
+  } */
 
   #humidity_txt,
   #temp_txt,
@@ -81,9 +81,9 @@ h2 {
   #humidity,
   #temp_from,
   #temp_to,
-  h2 {
+  /* h2 {
     font-size: 18px;
-  }
+  } */
 
   #weather_status {
     width: 60%;
